@@ -1,6 +1,6 @@
-#UrlShortenerAPI
+# UrlShortenerAPI
 
-###FreeCodeCamp project walkthrough
+### FreeCodeCamp project walkthrough
 
 A simple url shortener api built with MEAN stack (angularjs-1), part of FreeCodeCamp projects
 
