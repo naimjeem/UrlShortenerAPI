@@ -38,22 +38,41 @@ app.get("/new/:urlToShorten(*)", (req, res, next) => {
             if (err) {
                 return res.send("Error saving to DB");
             }
-            return res.json(data);
+            return res.json(data); 
         });
 
 
-        return res.json({urlToShorten});
+        return res.json(data);
     }
-    else {
-        return res.json({urlToShorten: "Failed"});
-    }
+
+    var data = new shortUrl({
+        originalUrl: "It is not a valid URL",
+        shortUrl: 'Invalid'
+    });
+    return res.json(data);   
     
+});
+
+app.get('/:urlToForward', (req, res, next) => {
+    var shorterUrl = req.params.urlToForward;
+
+    shortUrl.findOne({'shortUrl': shorterUrl}, (err, data) => {
+        if(err) return res.send('Error reading DB');
+        var reg = new RegExp("^(http|https)://", "i");
+        var strToCheck = data.originalUrl;
+        if(reg.test(strToCheck)){
+            res.redirect(301, data.originalUrl);
+        }
+        else {
+            res.redirect(301, 'http://', data.originalUrl);
+        }
+    });
+
 });
 
 
 
 
-
 app.listen(process.env.PORT || 3000, () => {
-    console.log("server is running...");
+    console.log("server is running..."); 
 });
